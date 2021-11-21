@@ -19,8 +19,17 @@
 }
 
 .content {
-  flex: 1;
-  padding: 32px 0;
+  position: absolute;
+  left: 50%;
+  top: 20.8%;
+  transform: translateX(-50%);
+  padding: 0 55px;
+  width: 440px;
+  height: 420px;
+  box-shadow: 1px 4px 6px 2px rgba(0, 0, 0, 0.24);
+  border-radius: 4px;
+  background: #fff;
+  text-align: center;
 }
 
 @media (min-width: @screen-md-min) {
@@ -41,25 +50,23 @@
 }
 
 .header {
-  height: 44px;
-  line-height: 44px;
   a {
     text-decoration: none;
   }
 }
 
 .logo {
+  display: block;
+  margin: 0 auto;
   height: 44px;
-  margin-right: 16px;
-  vertical-align: top;
 }
 
 .title {
+  display: inline-block;
   position: relative;
-  top: 2px;
+  margin-top: 10px;
   color: @heading-color;
-  font-weight: 600;
-  font-size: 33px;
+  font-size: 32px;
   font-family: Avenir, 'Helvetica Neue', Arial, Helvetica, sans-serif;
 }
 
@@ -72,7 +79,7 @@
 
 .main {
   width: 328px;
-  margin: 0 auto;
+  margin: 40px auto 0;
   @media screen and (max-width: @screen-sm) {
     width: 95%;
     max-width: 328px;

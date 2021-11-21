@@ -6,6 +6,7 @@ import { useIntl, Link, history, FormattedMessage, SelectLang, useModel } from '
 import Footer from '@/components/Footer';
 import { login } from '@/services/ant-design-pro/api';
 const md5 = require('md5');
+import settings from '../../../../config/defaultSettings';
 
 import styles from './index.less';
 
@@ -80,20 +81,18 @@ const Login: React.FC = () => {
 
   return (
     <div className={styles.container}>
-      <div className={styles.lang} data-lang>
-        {SelectLang && <SelectLang />}
-      </div>
+      {/*<div className={styles.lang} data-lang>*/}
+      {/*  {SelectLang && <SelectLang />}*/}
+      {/*</div>*/}
       <div className={styles.content}>
         <div className={styles.top}>
           <div className={styles.header}>
-            <Link to="/">
               <img alt="logo" className={styles.logo} src="/logo.svg" />
-              <span className={styles.title}>Ant Design</span>
-            </Link>
+              <span className={styles.title}>{settings.title}</span>
           </div>
-          <div className={styles.desc}>
-            {intl.formatMessage({ id: 'pages.layouts.userLayout.title' })}
-          </div>
+          {/*<div className={styles.desc}>*/}
+          {/*  描述*/}
+          {/*</div>*/}
         </div>
 
         <div className={styles.main}>
@@ -121,15 +120,15 @@ const Login: React.FC = () => {
               await handleSubmit(values as API.LoginParams);
             }}
           >
-            <Tabs activeKey={type} onChange={setType}>
-              <Tabs.TabPane
-                key="account"
-                tab={intl.formatMessage({
-                  id: 'pages.login.accountLogin.tab',
-                  defaultMessage: '账户密码登录',
-                })}
-              />
-            </Tabs>
+            {/*<Tabs activeKey={type} onChange={setType}>*/}
+            {/*  <Tabs.TabPane*/}
+            {/*    key="account"*/}
+            {/*    tab={intl.formatMessage({*/}
+            {/*      id: 'pages.login.accountLogin.tab',*/}
+            {/*      defaultMessage: '账户密码登录',*/}
+            {/*    })}*/}
+            {/*  />*/}
+            {/*</Tabs>*/}
 
             {result === false && (
               <LoginMessage
@@ -147,10 +146,7 @@ const Login: React.FC = () => {
                     size: 'large',
                     prefix: <UserOutlined className={styles.prefixIcon} />,
                   }}
-                  placeholder={intl.formatMessage({
-                    id: 'pages.login.username.placeholder',
-                    defaultMessage: '用户名: admin or user',
-                  })}
+                  placeholder='请输入用户名'
                   rules={[
                     {
                       required: true,
@@ -169,10 +165,7 @@ const Login: React.FC = () => {
                     size: 'large',
                     prefix: <LockOutlined className={styles.prefixIcon} />,
                   }}
-                  placeholder={intl.formatMessage({
-                    id: 'pages.login.password.placeholder',
-                    defaultMessage: '密码: ant.design',
-                  })}
+                  placeholder='请输入密码'
                   rules={[
                     {
                       required: true,
@@ -187,26 +180,26 @@ const Login: React.FC = () => {
                 />
               </>
             )}
-            <div
-              style={{
-                marginBottom: 24,
-              }}
-            >
-              <ProFormCheckbox noStyle name="autoLogin">
-                <FormattedMessage id="pages.login.rememberMe" defaultMessage="自动登录" />
-              </ProFormCheckbox>
-              <a
-                style={{
-                  float: 'right',
-                }}
-              >
-                <FormattedMessage id="pages.login.forgotPassword" defaultMessage="忘记密码" />
-              </a>
-            </div>
+            {/*<div*/}
+            {/*  style={{*/}
+            {/*    marginBottom: 24,*/}
+            {/*  }}*/}
+            {/*>*/}
+            {/*  <ProFormCheckbox noStyle name="autoLogin">*/}
+            {/*    <FormattedMessage id="pages.login.rememberMe" defaultMessage="自动登录" />*/}
+            {/*  </ProFormCheckbox>*/}
+            {/*  <a*/}
+            {/*    style={{*/}
+            {/*      float: 'right',*/}
+            {/*    }}*/}
+            {/*  >*/}
+            {/*    <FormattedMessage id="pages.login.forgotPassword" defaultMessage="忘记密码" />*/}
+            {/*  </a>*/}
+            {/*</div>*/}
           </ProForm>
         </div>
       </div>
-      <Footer />
+      {/*<Footer />*/}
     </div>
   );
 };

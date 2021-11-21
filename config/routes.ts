@@ -49,6 +49,12 @@
     component: './MeetingList',
   },
   {
+    name: 'demo',
+    icon: 'icon-rizhi-nor',
+    path: '/demo',
+    component: './demo',
+  },
+  {
     name: '会议室',
     icon: 'icon-rizhi-nor',
     path: '/meetingRoomList',

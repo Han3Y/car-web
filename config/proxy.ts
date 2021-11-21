@@ -9,18 +9,21 @@
 export default {
   dev: {
     '/api/v1': {
-      target: 'http://127.0.0.1:8075',
+      // target: 'http://127.0.0.1:8075',
+      target: 'http://110.40.193.169:80',
       changeOrigin: true,
       secure: false,
       // pathRewrite: { '^': '' },
     },
     '/nologin': {
-      target: 'http://127.0.0.1:8075',
+      // target: 'http://127.0.0.1:8075',
+      target: 'http://110.40.193.169:80',
       secure: false,
       timeout: 600000,
     },
     '/sys': {
-      target: 'http://127.0.0.1:8075',
+      // target: 'http://127.0.0.1:8075',
+      target: 'http://110.40.193.169:80',
       secure: false,
       timeout: 600000,
     },
