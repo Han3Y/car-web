@@ -80,6 +80,56 @@ export const layout: RunTimeLayoutConfig = ({ initialState }) => {
     //     ]
     //   : [],
     menuHeaderRender: undefined,
+    // 根据用户角色动态生成菜单
+    menu: {
+      locale: false,
+      params: {
+        userId: initialState?.currentUser?.id,
+      },
+      request: async () => {
+        console.log('roles', initialState?.currentUser?.roles);
+        if(initialState?.currentUser?.roles.includes(2)){
+          return [
+            {
+              path: '/welcome',
+              name: '欢迎',
+              icon: 'icon-rizhi-nor',
+              component: './Welcome',
+            },
+            {
+              name: 'demo',
+              icon: 'icon-rizhi-nor',
+              path: '/demo',
+              component: './demo',
+            },
+          ]
+        }else if(initialState?.currentUser?.roles.includes(1)){
+          return [
+            {
+              path: '/welcome',
+              name: '欢迎',
+              icon: 'icon-rizhi-nor',
+              component: './Welcome',
+            },
+            {
+              name: '会议',
+              icon: 'icon-rizhi-nor',
+              path: '/meetingList',
+              component: './MeetingList',
+            },
+          ]
+        }else{
+          return [
+            {
+              path: '/welcome',
+              name: '欢迎',
+              icon: 'icon-rizhi-nor',
+              component: './Welcome',
+            },
+          ]
+        }
+      }
+    },
     // 自定义 403 页面
     // unAccessible: <div>unAccessible</div>,
     // 引入iconfont

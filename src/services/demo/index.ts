@@ -1,6 +1,6 @@
 import {ListParamsDTO} from "@/beans/global/listParamsDTO";
 import {HttpOptionsDTO} from "@/beans/global/httpOptionsDTO";
-import {TablePageVO} from "@/beans/global/tablePageVO";
+import {AntTablePageVO} from "@/beans/global/antTablePageVO";
 import {DemoListVO} from "@/beans/demo/demoListVO";
 import {request} from "@@/plugin-request/request";
 import ResponseVO from "@/beans/global/httpResVO";
@@ -14,7 +14,7 @@ const DemoService = {
    * @param params
    * @param options
    */
-  async listByPage(params: ListParamsDTO, options?: HttpOptionsDTO): Promise<TablePageVO<DemoListVO>>{
+  async listByPage(params: ListParamsDTO, options?: HttpOptionsDTO): Promise<AntTablePageVO<DemoListVO>>{
     const res = await request<ResponseVO<ListPageVO<DemoListVO>>>('/receiver/list', {
       method: 'GET',
       params: {
