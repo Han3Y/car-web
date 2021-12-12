@@ -1,12 +1,12 @@
-import {ListParamsDTO} from "@/beans/global/listParamsDTO";
-import {HttpOptionsDTO} from "@/beans/global/httpOptionsDTO";
-import {AntTablePageVO} from "@/beans/global/antTablePageVO";
-import {DemoListVO} from "@/beans/demo/demoListVO";
-import {request} from "@@/plugin-request/request";
-import ResponseVO from "@/beans/global/httpResVO";
-import {ListPageVO} from "@/beans/global/listPageVO";
-import {DemoDTO} from "@/beans/demo/demoDTO";
-import {DemoVO} from "@/beans/demo/demoVO";
+import { ListParamsDTO } from '@/beans/global/listParamsDTO';
+import { HttpOptionsDTO } from '@/beans/global/httpOptionsDTO';
+import { AntTablePageVO } from '@/beans/global/antTablePageVO';
+import { DemoListVO } from '@/pages/demo/beans/demoListVO';
+import { request } from '@@/plugin-request/request';
+import ResponseVO from '@/beans/global/httpResVO';
+import { ListPageVO } from '@/beans/global/listPageVO';
+import { DemoDTO } from '@/pages/demo/beans/demoDTO';
+import { DemoVO } from '@/pages/demo/beans/demoVO';
 
 const DemoService = {
   /**
@@ -14,7 +14,10 @@ const DemoService = {
    * @param params
    * @param options
    */
-  async listByPage(params: ListParamsDTO, options?: HttpOptionsDTO): Promise<AntTablePageVO<DemoListVO>>{
+  async listByPage(
+    params: ListParamsDTO,
+    options?: HttpOptionsDTO,
+  ): Promise<AntTablePageVO<DemoListVO>> {
     const res = await request<ResponseVO<ListPageVO<DemoListVO>>>('/receiver/list', {
       method: 'GET',
       params: {
@@ -34,7 +37,7 @@ const DemoService = {
    * @param data
    * @param options
    */
-  async add(data: DemoDTO, options?: HttpOptionsDTO): Promise<ResponseVO<any>>{
+  async add(data: DemoDTO, options?: HttpOptionsDTO): Promise<ResponseVO<any>> {
     return request<ResponseVO<any>>('/receiver', {
       method: 'POST',
       data,
@@ -46,7 +49,7 @@ const DemoService = {
    * @param data
    * @param options
    */
-  async edit(data: DemoDTO, options?: HttpOptionsDTO): Promise<ResponseVO<any>>{
+  async edit(data: DemoDTO, options?: HttpOptionsDTO): Promise<ResponseVO<any>> {
     return request<ResponseVO<any>>('/receiver', {
       method: 'PUT',
       data,
@@ -57,11 +60,11 @@ const DemoService = {
    * 编辑时根据id获取信息
    * @param id
    */
-  async getEditInfoById(id: string): Promise<ResponseVO<DemoDTO>>{
+  async getEditInfoById(id: string): Promise<ResponseVO<DemoDTO>> {
     return request<ResponseVO<DemoDTO>>('/receiver', {
       method: 'GET',
       params: {
-        id
+        id,
       },
     });
   },
@@ -69,11 +72,11 @@ const DemoService = {
    * 查看时根据id获取信息
    * @param id
    */
-  async getViewInfoById(id: string): Promise<ResponseVO<DemoVO>>{
+  async getViewInfoById(id: string): Promise<ResponseVO<DemoVO>> {
     return request<ResponseVO<DemoVO>>('/receiver', {
       method: 'GET',
       params: {
-        id
+        id,
       },
     });
   },
@@ -81,11 +84,11 @@ const DemoService = {
    * 根据id单个删除
    * @param id
    */
-  async deleteById(id: string):Promise<ResponseVO<any>>{
+  async deleteById(id: string): Promise<ResponseVO<any>> {
     return request<ResponseVO<any>>('/receiver', {
       method: 'DELETE',
       data: {
-        ids: [id]
+        ids: [id],
       },
     });
   },
@@ -93,14 +96,14 @@ const DemoService = {
    * 批量删除
    * @param ids
    */
-  async batchDelete(ids: string[]):Promise<ResponseVO<any>>{
+  async batchDelete(ids: string[]): Promise<ResponseVO<any>> {
     return request<ResponseVO<any>>('/receiver', {
       method: 'DELETE',
       data: {
-        ids
+        ids,
       },
     });
-  }
-}
+  },
+};
 
 export default DemoService;

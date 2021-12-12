@@ -1,20 +1,14 @@
-import React, {useRef, useState} from 'react';
-import {PageContainer} from '@ant-design/pro-layout';
-import ProTable, {ActionType, ProColumns} from '@ant-design/pro-table';
-import {Button, message, Modal} from 'antd';
-import {ExclamationCircleOutlined, PlusOutlined} from '@ant-design/icons';
-import {DemoListVO} from "@/beans/demo/demoListVO";
-import {DemoDTO} from "@/beans/demo/demoDTO";
-import DemoService from "@/services/demo";
-import DemoEditModal from "@/pages/demo/components/modal";
-import {VALIDATOR_MSG} from "../../../config/validate";
-import {
-  LAYOUT_HORIZONTAL,
-  LAYOUT_TYPE_HORIZONTAL,
-  LONG_MODAL_WIDTH,
-  MODEL_TITLE,
-  MODEL_TYPE
-} from "../../../config/uiConfig";
+import React, { useRef, useState } from 'react';
+import { PageContainer } from '@ant-design/pro-layout';
+import ProTable, { ActionType, ProColumns } from '@ant-design/pro-table';
+import { Button, message, Modal } from 'antd';
+import { ExclamationCircleOutlined, PlusOutlined } from '@ant-design/icons';
+import { DemoListVO } from '@/pages/demo/beans/demoListVO';
+import { DemoDTO } from '@/pages/demo/beans/demoDTO';
+import DemoService from './service';
+import DemoEditModal from '@/pages/demo/components/modal';
+import { MODEL_TITLE, MODEL_TYPE } from '../../../config/uiConfig';
+import CustomModalWrapper from '@/components/CustomModal';
 
 const { confirm } = Modal;
 
@@ -33,7 +27,7 @@ const DemoList: React.FC = () => {
   // table实例
   const actionRef = useRef<ActionType>();
   // table列
-  const columns : ProColumns<DemoListVO> [] = [
+  const columns: ProColumns<DemoListVO>[] = [
     {
       title: '名称',
       dataIndex: 'name',
@@ -56,12 +50,12 @@ const DemoList: React.FC = () => {
         <a
           key="editable"
           onClick={() => {
-            DemoService.getEditInfoById(record.id).then(res => {
+            DemoService.getEditInfoById(record.id).then((res) => {
               setModalTitle(MODEL_TITLE.EDIT);
               setModalType(MODEL_TYPE.EDIT);
               setInitFormValue(res.data);
               handleModalVisible(true);
-            })
+            });
           }}
         >
           编辑
@@ -77,15 +71,16 @@ const DemoList: React.FC = () => {
                 console.log('OK');
                 console.log('删除', record.id);
                 const hide = message.loading('正在删除');
-                DemoService.deleteById(record.id).then(res => {
-                  if(res.result){
-                    message.success('删除成功');
-                    actionRef.current?.reloadAndRest?.();
-                  }
-                }).finally(() => {
-                  hide();
-                });
-
+                DemoService.deleteById(record.id)
+                  .then((res) => {
+                    if (res.result) {
+                      message.success('删除成功');
+                      actionRef.current?.reloadAndRest?.();
+                    }
+                  })
+                  .finally(() => {
+                    hide();
+                  });
               },
               onCancel() {
                 console.log('Cancel');
@@ -131,17 +126,17 @@ const DemoList: React.FC = () => {
                     console.log('OK');
                     console.log('selected', selectedRowsState);
                     const hide = message.loading('正在删除');
-                    DemoService.batchDelete(selectedRowsState.map((item => item.id)))
-                      .then(res => {
-                        if(res.result){
+                    DemoService.batchDelete(selectedRowsState.map((item) => item.id))
+                      .then((res) => {
+                        if (res.result) {
                           message.success('删除成功');
                           setSelectedRows([]);
                           actionRef.current?.reloadAndRest?.();
                         }
-                    }).finally(() => {
+                      })
+                      .finally(() => {
                         hide();
-                    })
-
+                      });
                   },
                   onCancel() {
                     console.log('Cancel');
@@ -162,48 +157,42 @@ const DemoList: React.FC = () => {
             setSelectedRows(selectedRows);
           },
         }}
-      >
-      </ProTable>
+      ></ProTable>
       {createModalVisible && (
-        <DemoEditModal
-          validateMessages={VALIDATOR_MSG}
-          title={modalTitle}
-          initialValues={initFormValue}
-          modalProps={{
-            wrapClassName: 'custom-form-modal',
-          }}
-          {...LAYOUT_TYPE_HORIZONTAL}
-          layout={LAYOUT_HORIZONTAL}
-          width={LONG_MODAL_WIDTH}
-          visible={createModalVisible}
-          onVisibleChange={handleModalVisible}
-          onFinish={async (value: DemoDTO): Promise<boolean> => {
-            let data = {
-              company: "2",
-              department: "123",
-              email: "22@qq.com",
-              id: initFormValue.id,
-              name: value.name,
-              phone: "18888888888",
-            }
-            let res;
-            if(modalType === MODEL_TYPE.CREATE){
-              res = await DemoService.add(data);
-            }else{
-              res = await DemoService.edit(data);
-            }
-            if (res.result) {
-              message.success('保存成功');
-              actionRef?.current?.reload();
-              return true;
-            } else {
-              return false;
-            }
-          }}
-        />
+        <CustomModalWrapper>
+          <DemoEditModal
+            title={modalTitle}
+            initialValues={initFormValue}
+            visible={createModalVisible}
+            onVisibleChange={handleModalVisible}
+            onFinish={async (value: DemoDTO): Promise<boolean> => {
+              let data = {
+                company: '2',
+                department: '123',
+                email: '22@qq.com',
+                id: initFormValue.id,
+                name: value.name,
+                phone: '18888888888',
+              };
+              let res;
+              if (modalType === MODEL_TYPE.CREATE) {
+                res = await DemoService.add(data);
+              } else {
+                res = await DemoService.edit(data);
+              }
+              if (res.result) {
+                message.success('保存成功');
+                actionRef?.current?.reload();
+                return true;
+              } else {
+                return false;
+              }
+            }}
+          />
+        </CustomModalWrapper>
       )}
     </PageContainer>
-  )
+  );
 };
 
 export default DemoList;

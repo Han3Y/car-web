@@ -3,7 +3,6 @@ import { Alert, message, Tabs } from 'antd';
 import React, { useState } from 'react';
 import ProForm, { ProFormCheckbox, ProFormText } from '@ant-design/pro-form';
 import { useIntl, Link, history, FormattedMessage, SelectLang, useModel } from 'umi';
-import Footer from '@/components/Footer';
 import { login } from '@/services/ant-design-pro/api';
 const md5 = require('md5');
 import settings from '../../../../config/defaultSettings';
@@ -87,8 +86,8 @@ const Login: React.FC = () => {
       <div className={styles.content}>
         <div className={styles.top}>
           <div className={styles.header}>
-              <img alt="logo" className={styles.logo} src="/logo.svg" />
-              <span className={styles.title}>{settings.title}</span>
+            <img alt="logo" className={styles.logo} src="/logo.svg" />
+            <span className={styles.title}>{settings.title}</span>
           </div>
           {/*<div className={styles.desc}>*/}
           {/*  描述*/}
@@ -146,7 +145,7 @@ const Login: React.FC = () => {
                     size: 'large',
                     prefix: <UserOutlined className={styles.prefixIcon} />,
                   }}
-                  placeholder='请输入用户名'
+                  placeholder="请输入用户名"
                   rules={[
                     {
                       required: true,
@@ -165,7 +164,7 @@ const Login: React.FC = () => {
                     size: 'large',
                     prefix: <LockOutlined className={styles.prefixIcon} />,
                   }}
-                  placeholder='请输入密码'
+                  placeholder="请输入密码"
                   rules={[
                     {
                       required: true,

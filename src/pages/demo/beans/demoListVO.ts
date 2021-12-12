@@ -5,4 +5,4 @@ export type DemoListVO = {
   id: string;
   name: string;
   [key: string]: any;
-}
+};

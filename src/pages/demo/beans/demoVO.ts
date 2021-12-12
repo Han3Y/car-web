@@ -4,4 +4,4 @@
 export type DemoVO = {
   id?: string;
   [key: string]: any;
-}
+};

@@ -1,14 +1,15 @@
 import type { Settings as LayoutSettings } from '@ant-design/pro-layout';
 import { PageLoading } from '@ant-design/pro-layout';
 import type { RunTimeLayoutConfig } from 'umi';
-import { history, Link } from 'umi';
+import { history, Link, useLocation } from 'umi';
 import RightContent from '@/components/RightContent';
 import Footer from '@/components/Footer';
 import { currentUser as queryCurrentUser } from './services/ant-design-pro/api';
-import { BookOutlined, LinkOutlined } from '@ant-design/icons';
+import { ArrowLeftOutlined, BookOutlined, HomeOutlined, LinkOutlined } from '@ant-design/icons';
 import { RequestConfig } from '@@/plugin-request/request';
 import { notification } from 'antd';
 import settings from '../config/defaultSettings';
+import { createRef } from 'react';
 
 const isDev = process.env.NODE_ENV === 'development';
 const loginPath = '/user/login';
@@ -16,6 +17,167 @@ const loginPath = '/user/login';
 /** 获取用户信息比较慢的时候会展示一个 loading */
 export const initialStateConfig = {
   loading: <PageLoading />,
+};
+
+/**
+ * 不同模块菜单
+ */
+const firstMenu = [
+  {
+    path: '/welcome',
+    name: '主页',
+    icon: <HomeOutlined />,
+    component: './Welcome',
+  },
+  {
+    name: '零部件安全检查子系统',
+    path: '/tbox',
+    icon: 'icon-lingjian1',
+    component: './demo',
+  },
+  {
+    name: '漏洞库',
+    path: '/vul',
+    icon: 'icon-webloudongjiance',
+    component: './demo',
+  },
+  {
+    name: '渗透测试工具集',
+    path: '/baseline',
+    icon: 'icon-ceshi',
+    component: './demo',
+  },
+  {
+    name: '车外通信协议安全检测工具',
+    path: '/cellular',
+    icon: 'icon-tongxunxieyi',
+    component: './demo',
+  },
+];
+
+const moduleMenu = {
+  partsDetection: [
+    {
+      name: 'T-BOX安全检测',
+      path: '/tbox',
+      icon: 'icon-t-box-line',
+      component: './demo',
+    },
+    {
+      name: '车载信息娱乐系统安全检测',
+      path: '/qube',
+      icon: 'icon-qichexiangguan-cheji',
+      component: './demo',
+    },
+    {
+      name: 'ECU安全检测',
+      path: '/ecu',
+      icon: 'icon-kongzhi',
+      component: './demo',
+    },
+    {
+      name: '车载OS安全检测',
+      path: '/os',
+      icon: 'icon-05',
+      component: './demo',
+    },
+    {
+      name: 'OBD接入安全检测',
+      path: '/obd',
+      icon: 'icon-xitongzhuangtai',
+      component: './demo',
+    },
+    {
+      name: '车外网络传输安全检测',
+      path: '/net',
+      icon: 'icon-wangluo',
+      component: './demo',
+    },
+    {
+      name: '终端升级安全检测',
+      path: '/terminal',
+      icon: 'icon-yunzhongduan-shouye',
+      component: './demo',
+    },
+    {
+      name: '智能车钥匙安全检测',
+      path: '/key',
+      icon: 'icon-yuechi',
+      component: './demo',
+    },
+    {
+      name: '胎压检测系统安全检测',
+      path: '/tirePressure',
+      icon: 'icon-luntai',
+      component: './demo',
+    },
+    {
+      name: '车辆定位系统安全检测',
+      path: '/gps',
+      icon: 'icon-qichedingwei',
+      component: './demo',
+    },
+  ],
+  vul: [
+    {
+      name: '漏洞库',
+      path: '/vul',
+      icon: 'icon-webloudongjiance',
+      component: './demo',
+    },
+  ],
+  penetrationTest: [
+    {
+      name: '基线检测工具',
+      path: '/baseline',
+      icon: 'icon-changyongtubiao_jixianguanli',
+      component: './demo',
+    },
+    {
+      name: '端口扫描工具',
+      path: '/port',
+      icon: 'icon-port',
+      component: './demo',
+    },
+    {
+      name: '无线安全攻击工具',
+      path: '/wireless',
+      icon: 'icon-wuxian1',
+      component: './demo',
+    },
+    {
+      name: '脆弱性检测工具',
+      path: '/fragility',
+      icon: 'icon-Vulnerability-analysis',
+      component: './demo',
+    },
+    {
+      name: '协议检测工具',
+      path: '/protocol',
+      icon: 'icon-yonghuxieyi',
+      component: './demo',
+    },
+  ],
+  protocolDetection: [
+    {
+      name: '蜂窝网络',
+      path: '/cellular',
+      icon: 'icon-beehive',
+      component: './demo',
+    },
+    {
+      name: 'wifi',
+      path: '/wifi',
+      icon: 'icon-wuxian',
+      component: './demo',
+    },
+    {
+      name: '蓝牙',
+      path: '/bluetooth',
+      icon: 'icon-lanya',
+      component: './demo',
+    },
+  ],
 };
 
 /**
@@ -27,6 +189,7 @@ export async function getInitialState(): Promise<{
   fetchUserInfo?: () => Promise<API.CurrentUser | undefined>;
 }> {
   console.log('getInitialState');
+  // const location = useLocation();
   const fetchUserInfo = async () => {
     try {
       const msg = await queryCurrentUser();
@@ -35,7 +198,6 @@ export async function getInitialState(): Promise<{
       history.push(loginPath);
     }
     return undefined;
-
   };
   // 如果是登录页面，不执行
   if (history.location.pathname !== loginPath) {
@@ -53,7 +215,8 @@ export async function getInitialState(): Promise<{
 }
 
 // ProLayout 支持的api https://procomponents.ant.design/components/layout
-export const layout: RunTimeLayoutConfig = ({ initialState }) => {
+export const layoutActionRef = createRef<{ reload: () => void }>();
+export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) => {
   return {
     rightContentRender: () => <RightContent />,
     disableContentMargin: false,
@@ -67,6 +230,7 @@ export const layout: RunTimeLayoutConfig = ({ initialState }) => {
       if (!initialState?.currentUser && location.pathname !== loginPath) {
         history.push(loginPath);
       }
+      layoutActionRef.current?.reload();
     },
     // links: isDev
     //   ? [
@@ -81,56 +245,68 @@ export const layout: RunTimeLayoutConfig = ({ initialState }) => {
     //     ]
     //   : [],
     menuHeaderRender: undefined,
+    actionRef: layoutActionRef,
     // 根据用户角色动态生成菜单
     menu: {
       locale: false,
       params: {
-        userId: initialState?.currentUser?.id,
+        // currentPath: initialState?.currentPath
       },
       request: async () => {
-        console.log('roles', initialState?.currentUser?.roles);
-        if(initialState?.currentUser?.roles.includes(2)){
-          return [
-            {
-              path: '/welcome',
-              name: '欢迎',
-              icon: 'icon-rizhi-nor',
-              component: './Welcome',
-            },
-            {
-              name: 'demo',
-              icon: 'icon-rizhi-nor',
-              path: '/demo',
-              component: './demo',
-            },
-          ]
-        }else if(initialState?.currentUser?.roles.includes(1)){
-          return [
-            {
-              path: '/welcome',
-              name: '欢迎',
-              icon: 'icon-rizhi-nor',
-              component: './Welcome',
-            },
-            {
-              name: '会议',
-              icon: 'icon-rizhi-nor',
-              path: '/meetingList',
-              component: './MeetingList',
-            },
-          ]
-        }else{
-          return [
-            {
-              path: '/welcome',
-              name: '欢迎',
-              icon: 'icon-rizhi-nor',
-              component: './Welcome',
-            },
-          ]
+        const currentPath = history.location.pathname;
+        for (let key in moduleMenu) {
+          for (let i = 0; i < moduleMenu[key].length; i++) {
+            if (moduleMenu[key][i].path === currentPath) {
+              return [
+                {
+                  path: '/welcome',
+                  name: '返回主页',
+                  icon: <ArrowLeftOutlined />,
+                  component: './Welcome',
+                },
+              ].concat(moduleMenu[key]);
+            }
+          }
         }
-      }
+        return firstMenu;
+        // if(initialState?.currentUser?.roles.includes(2)){
+        //   return [
+        //     {
+        //       path: '/home',
+        //       name: '首页',
+        //       component: './home',
+        //     },
+        //     {
+        //       name: 'demo',
+        //       path: '/demo',
+        //       component: './demo',
+        //     },
+        //   ]
+        // }else if(initialState?.currentUser?.roles.includes(1)){
+        //   return [
+        //     {
+        //       path: '/home',
+        //       name: '首页',
+        //       component: './home',
+        //     },
+        //     {
+        //       name: '会议',
+        //       path: '/meetingList',
+        //       component: './MeetingList',
+        //     },
+        //   ]
+        // }else{
+        //   return [
+        //     {
+        //       path: '/home',
+        //       name: '首页',
+        //       component: './home',
+        //     },
+        //   ]
+        // }
+      },
     },
+    siderWidth: 230,
     // 自定义 403 页面
     // unAccessible: <div>unAccessible</div>,
     // 引入iconfont

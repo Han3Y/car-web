@@ -6,6 +6,17 @@ import { RuleObject } from 'rc-field-form/lib/interface';
 export const NAME_PATTERN = /^[\u4e00-\u9fa5_a-zA-Z0-9-_+]+$/;
 
 /**
+ * 手机号校验
+ */
+export const PHONE_PATTERN = /^1(3[0-9]|4[579]|5[0-35-9]|6[6]|7[0135-8]|8[0-9]|9[89])\d{8}$/;
+
+/**
+ * 密码强度
+ */
+export const PASSWORD_PATTERN =
+  /^(?=.*\d)(?=.*[a-zA-Z])(?=.*[@#$%^&*_])[0-9a-zA-Z!@#$%^&*_+\(\)]{8,16}$/;
+
+/**
  * 校验提示语
  */
 export const VALIDATOR_MSG = {
@@ -24,6 +35,7 @@ export const VALIDATOR_MSG = {
   password_red: '8-16位,只能用数字、小写字母、大写字母、特殊字符两种及以上组合',
   required_pwd: '请输入密码',
   hex: '请输入正确的十六进制数',
+  phone: '请输入正确手机号',
 };
 
 /**

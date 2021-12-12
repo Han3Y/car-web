@@ -25,6 +25,17 @@
     component: './Welcome',
   },
   {
+    path: '/home',
+    name: '主页',
+    icon: 'icon-rizhi-nor',
+    component: './home',
+    layout: {
+      hideMenu: true,
+      hideNav: true,
+      hideFooter: true,
+    },
+  },
+  {
     path: '/admin',
     name: '管理员页面',
     icon: 'icon-rizhi-nor',
@@ -59,6 +70,18 @@
     icon: 'icon-rizhi-nor',
     path: '/meetingRoomList',
     component: './TableList',
+  },
+  {
+    path: '/account',
+    routes: [
+      {
+        path: '/account/settings',
+        component: './account/settings',
+      },
+      {
+        component: './404',
+      },
+    ],
   },
   {
     path: '/',
