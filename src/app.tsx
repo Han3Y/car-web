@@ -35,6 +35,7 @@ export async function getInitialState(): Promise<{
       history.push(loginPath);
     }
     return undefined;
+
   };
   // 如果是登录页面，不执行
   if (history.location.pathname !== loginPath) {
