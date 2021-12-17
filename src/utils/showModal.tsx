@@ -34,6 +34,10 @@ export interface ShowModalProps extends BaseModalProp {
     content?: React.ReactNode;
 }
 
+/**
+ * 普通弹窗
+ * @param props
+ */
 export const showModal = (props: ShowModalProps) => {
     const div = document.createElement("div");
     document.body.appendChild(div)
