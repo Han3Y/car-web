@@ -7,10 +7,13 @@ import {
 import { VALIDATOR_MSG } from '../../../config/validate';
 
 const CustomModalWrapper: React.FC<any> = (props: any) => {
+  const [visible, setVisible] = useState(true);
   const newProps = {
     ...LAYOUT_TYPE_HORIZONTAL,
     layout: LAYOUT_HORIZONTAL,
     width: LONG_MODAL_WIDTH,
+    visible,
+    onVisibleChange: setVisible,
     modalProps: {
       wrapClassName: 'custom-form-modal',
       afterClose: props.afterClose
@@ -18,10 +21,8 @@ const CustomModalWrapper: React.FC<any> = (props: any) => {
     validateMessages: VALIDATOR_MSG,
     ...props,
   };
-  console.log(newProps)
   delete newProps.onVisibleSetter;
   delete newProps.afterClose;
-  const [visible, setVisible] = useState(true);
 
   useEffect(() => {
     if (visible && props.onVisibleSetter) {

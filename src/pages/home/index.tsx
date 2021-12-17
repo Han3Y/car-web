@@ -87,30 +87,31 @@ const Home: React.FC<any> = (props: any) => {
 
         </List>
       </div>
-      <button onClick={ event => {
-        let modal = showModal({
-          title: '弹窗测试',
-          content: <div>modal test</div>,
-          footer: [
-            <Button key="submit" type="primary" onClick={() => {
-              console.log('123');
-              modal.destroy();
-            }}>
-            Submit
-          </Button>,],
-        });
-      }}>弹窗测试</button>
-      <button onClick={
-        event => {
-          let modal = showFormModal({
-            title: '表单弹窗测试',
-            content: <DemoEditModal onFinish={ (value: any) => {
-              console.log(value);
-            }
-            }/>
-          })
-        }
-      }>表单弹窗测试</button>
+      {/*<button onClick={ event => {*/}
+      {/*  let modal = showModal({*/}
+      {/*    title: '弹窗测试',*/}
+      {/*    content: <div>modal test</div>,*/}
+      {/*    footer: [*/}
+      {/*      <Button key="submit" type="primary" onClick={() => {*/}
+      {/*        console.log('123');*/}
+      {/*        modal.destroy();*/}
+      {/*      }}>*/}
+      {/*      Submit*/}
+      {/*    </Button>,],*/}
+      {/*  });*/}
+      {/*}}>弹窗测试</button>*/}
+      {/*<button onClick={*/}
+      {/*  event => {*/}
+      {/*    let modal = showFormModal({*/}
+      {/*      title: '表单弹窗测试',*/}
+      {/*      content: <DemoEditModal onFinish={ (value: any) => {*/}
+      {/*        console.log(value);*/}
+      {/*        modal.destroy();*/}
+      {/*      }*/}
+      {/*      }/>*/}
+      {/*    })*/}
+      {/*  }*/}
+      {/*}>表单弹窗测试</button>*/}
     </PageContainer>
   );
 };
