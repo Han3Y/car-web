@@ -24,10 +24,10 @@ export const initialStateConfig = {
  */
 const firstMenu = [
   {
-    path: '/welcome',
+    path: '/home',
     name: '主页',
     icon: <HomeOutlined />,
-    component: './Welcome',
+    component: './home',
   },
   {
     name: '零部件安全检查子系统',
@@ -259,10 +259,10 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
             if (moduleMenu[key][i].path === currentPath) {
               return [
                 {
-                  path: '/welcome',
+                  path: '/home',
                   name: '返回主页',
                   icon: <ArrowLeftOutlined />,
-                  component: './Welcome',
+                  component: './home',
                 },
               ].concat(moduleMenu[key]);
             }

@@ -30,9 +30,9 @@
     icon: 'icon-rizhi-nor',
     component: './home',
     layout: {
-      hideMenu: true,
-      hideNav: true,
-      hideFooter: true,
+      hideMenu: false,
+      hideNav: false,
+      hideFooter: false,
     },
   },
   {
@@ -85,7 +85,7 @@
   },
   {
     path: '/',
-    redirect: '/welcome',
+    redirect: '/home',
   },
   {
     component: './404',
