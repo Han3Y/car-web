@@ -1,13 +1,15 @@
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
-import { Alert, message, Tabs } from 'antd';
-import React, { useState } from 'react';
-import ProForm, { ProFormCheckbox, ProFormText } from '@ant-design/pro-form';
+import {Alert, Input, message, Space, Tabs} from 'antd';
+import React, {useRef, useState} from 'react';
+import ProForm, {ProFormCheckbox, ProFormFieldSet, ProFormInstance, ProFormText} from '@ant-design/pro-form';
 import { useIntl, Link, history, FormattedMessage, SelectLang, useModel } from 'umi';
 import { login } from '@/services/ant-design-pro/api';
 const md5 = require('md5');
 import settings from '../../../../config/defaultSettings';
 
 import styles from './index.less';
+import {RuleObject} from "rc-field-form/lib/interface";
+import {PASSWORD_PATTERN, PHONE_PATTERN, VALIDATOR_MSG} from "../../../../config/validate";
 
 const LoginMessage: React.FC<{
   content: string;
@@ -22,14 +24,37 @@ const LoginMessage: React.FC<{
   />
 );
 
+/**
+ * 页面类型
+ */
+enum LoginPageType {
+  ACCOUNT= 'account', // 账户登录
+  REGISTER = 'register', // 注册
+}
+
 const Login: React.FC = () => {
   const [submitting, setSubmitting] = useState(false);
   // @ts-ignore
   const [userLoginState, setUserLoginState] = useState<API.ResponseData>({});
-  const [type, setType] = useState<string>('account');
+  const [type, setType] = useState<LoginPageType>(LoginPageType.ACCOUNT);
   const { initialState, setInitialState } = useModel('@@initialState');
+  const formRef = useRef<ProFormInstance>();
 
   const intl = useIntl();
+
+
+  const changeType = function (pageType: LoginPageType){
+    setType(pageType);
+  };
+
+  const samePwdCheck = (rule: RuleObject, value: any): void | Promise<any> => {
+    const newPwd = formRef.current?.getFieldValue('newPassword');
+    if (value === newPwd) {
+      return Promise.resolve();
+    } else {
+      return Promise.reject(VALIDATOR_MSG.same_password);
+    }
+  };
 
   const fetchUserInfo = async () => {
     const userInfo = await initialState?.fetchUserInfo?.();
@@ -46,26 +71,31 @@ const Login: React.FC = () => {
     try {
       // 登录
       const formData = new FormData();
-      formData.append('userName', values.userName as string);
-      formData.append('password', md5('@12AQh#909' + md5(values.password)));
-      const msg = await login(formData);
-      console.log('msg', msg);
-      if (msg.result === true) {
-        const defaultLoginSuccessMessage = intl.formatMessage({
-          id: 'pages.login.success',
-          defaultMessage: '登录成功！',
-        });
-        message.success(defaultLoginSuccessMessage);
-        await fetchUserInfo();
-        /** 此方法会跳转到 redirect 参数所在的位置 */
-        if (!history) return;
-        const { query } = history.location;
-        const { redirect } = query as { redirect: string };
-        history.push(redirect || '/');
-        return;
+      if(type === LoginPageType.ACCOUNT){
+        formData.append('userName', values.userName as string);
+        formData.append('password', md5('@12AQh#909' + md5(values.password)));
+        const msg = await login(formData);
+        console.log('msg', msg);
+        if (msg.result === true) {
+          const defaultLoginSuccessMessage = intl.formatMessage({
+            id: 'pages.login.success',
+            defaultMessage: '登录成功！',
+          });
+          message.success(defaultLoginSuccessMessage);
+          await fetchUserInfo();
+          /** 此方法会跳转到 redirect 参数所在的位置 */
+          if (!history) return;
+          const { query } = history.location;
+          const { redirect } = query as { redirect: string };
+          history.push(redirect || '/');
+          return;
+        }
+        // 如果失败去设置用户错误信息
+        setUserLoginState(msg);
+      }else if(type === LoginPageType.REGISTER){
+        console.log(values);
       }
-      // 如果失败去设置用户错误信息
-      setUserLoginState(msg);
+
     } catch (error) {
       const defaultLoginFailureMessage = intl.formatMessage({
         id: 'pages.login.failure',
@@ -99,12 +129,10 @@ const Login: React.FC = () => {
             initialValues={{
               autoLogin: true,
             }}
+            formRef={formRef}
             submitter={{
               searchConfig: {
-                submitText: intl.formatMessage({
-                  id: 'pages.login.submit',
-                  defaultMessage: '登录',
-                }),
+                submitText: type === LoginPageType.REGISTER ? '注册' : '登录',
               },
               render: (_, dom) => dom.pop(),
               submitButtonProps: {
@@ -131,13 +159,10 @@ const Login: React.FC = () => {
 
             {result === false && (
               <LoginMessage
-                content={intl.formatMessage({
-                  id: 'pages.login.accountLogin.errorMessage',
-                  defaultMessage: '账户或密码错误(admin/ant.design)',
-                })}
+                content={'账户或密码错误'}
               />
             )}
-            {type === 'account' && (
+            {type === LoginPageType.ACCOUNT && (
               <>
                 <ProFormText
                   name="userName"
@@ -179,6 +204,72 @@ const Login: React.FC = () => {
                 />
               </>
             )}
+            {type === LoginPageType.REGISTER && (
+              <>
+                <ProFormText
+                  name="userName"
+                  fieldProps={{
+                    size: 'large',
+                  }}
+                  placeholder="请输入用户名"
+                  rules={[
+                    {
+                      required: true,
+                      message: '请输入用户名',
+                    },
+                  ]}
+                />
+                <ProFormText
+                  name="phone"
+                  fieldProps={{
+                    size: 'large',
+                    addonBefore: "+86",
+                  }}
+                  placeholder='请输入手机号'
+                  rules={[
+                    {
+                      required: true,
+                      message: '请输入手机号',
+                    },
+                    {
+                      pattern: PHONE_PATTERN,
+                      message: VALIDATOR_MSG.phone,
+                    },
+                  ]}
+                />
+                <ProFormText.Password
+                  name="newPassword"
+                  fieldProps={{
+                    size: 'large',
+                    visibilityToggle: false,
+                  }}
+                  placeholder="请输入密码"
+                  rules={[
+                    {
+                      required: true,
+                      message: '请输入密码',
+                    },
+                    {
+                      message: VALIDATOR_MSG.password,
+                      pattern: PASSWORD_PATTERN,
+                    },
+                  ]}
+                />
+                <ProFormText.Password
+                  name="rePassword"
+                  fieldProps={{
+                    size: 'large',
+                    visibilityToggle: false,
+                  }}
+                  placeholder="请输入确认密码"
+                  rules={[
+                    {
+                      validator: samePwdCheck,
+                    },
+                  ]}
+                />
+              </>
+            )}
             {/*<div*/}
             {/*  style={{*/}
             {/*    marginBottom: 24,*/}
@@ -196,6 +287,18 @@ const Login: React.FC = () => {
             {/*  </a>*/}
             {/*</div>*/}
           </ProForm>
+          <div className={styles.changeType}>
+            {
+              type === LoginPageType.ACCOUNT && (
+                <span style={{width: '100%'}} onClick={() => changeType(LoginPageType.REGISTER)}>注册账户</span>
+              )
+            }
+            {
+              type === LoginPageType.REGISTER && (
+                <span onClick={() => changeType(LoginPageType.ACCOUNT)}>使用已有账户登录</span>
+              )
+            }
+          </div>
         </div>
       </div>
       {/*<Footer />*/}
