@@ -3,13 +3,16 @@ import {Alert, Input, message, Space, Tabs} from 'antd';
 import React, {useRef, useState} from 'react';
 import ProForm, {ProFormCheckbox, ProFormFieldSet, ProFormInstance, ProFormText} from '@ant-design/pro-form';
 import { useIntl, Link, history, FormattedMessage, SelectLang, useModel } from 'umi';
-import { login } from '@/services/ant-design-pro/api';
+import {formLogin, login} from '@/services/ant-design-pro/api';
 const md5 = require('md5');
+import storage from 'good-storage'
 import settings from '../../../../config/defaultSettings';
 
 import styles from './index.less';
 import {RuleObject} from "rc-field-form/lib/interface";
 import {PASSWORD_PATTERN, PHONE_PATTERN, VALIDATOR_MSG} from "../../../../config/validate";
+import {LoginDTO} from "@/pages/user/Login/beans/loginDTO";
+import ResponseVO from "@/beans/global/httpResVO";
 
 const LoginMessage: React.FC<{
   content: string;
@@ -35,7 +38,7 @@ enum LoginPageType {
 const Login: React.FC = () => {
   const [submitting, setSubmitting] = useState(false);
   // @ts-ignore
-  const [userLoginState, setUserLoginState] = useState<API.ResponseData>({});
+  const [userLoginState, setUserLoginState] = useState<ResponseVO>({});
   const [type, setType] = useState<LoginPageType>(LoginPageType.ACCOUNT);
   const { initialState, setInitialState } = useModel('@@initialState');
   const formRef = useRef<ProFormInstance>();
@@ -72,16 +75,23 @@ const Login: React.FC = () => {
       // 登录
       const formData = new FormData();
       if(type === LoginPageType.ACCOUNT){
-        formData.append('userName', values.userName as string);
+        formData.append('userName', values.username as string);
         formData.append('password', md5('@12AQh#909' + md5(values.password)));
-        const msg = await login(formData);
+        // storage.set('user', {id: 'xxx', username: 'hjc'});
+        // history.push( '/');
+        // console.log('11111111111');
+        // await fetchUserInfo();
+        // return;
+        const msg = await login(values as LoginDTO);
+        // const msg = await formLogin(formData);
         console.log('msg', msg);
-        if (msg.result === true) {
+        if (msg.success === true) {
           const defaultLoginSuccessMessage = intl.formatMessage({
             id: 'pages.login.success',
             defaultMessage: '登录成功！',
           });
           message.success(defaultLoginSuccessMessage);
+          storage.set('user', msg.data);
           await fetchUserInfo();
           /** 此方法会跳转到 redirect 参数所在的位置 */
           if (!history) return;
@@ -165,7 +175,7 @@ const Login: React.FC = () => {
             {type === LoginPageType.ACCOUNT && (
               <>
                 <ProFormText
-                  name="userName"
+                  name="username"
                   fieldProps={{
                     size: 'large',
                     prefix: <UserOutlined className={styles.prefixIcon} />,

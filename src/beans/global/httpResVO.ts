@@ -2,7 +2,7 @@
  * http响应格式
  */
 type ResponseVO<T> = {
-  result: boolean;
+  success: boolean;
   data: T;
   msg: string;
   kind: any;

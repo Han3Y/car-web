@@ -20,7 +20,8 @@ const Settings: LayoutSettings & {
   logo: '/img/logo.png',
   iconfontUrl: '',
   baseUrl: '',
-  serverUrl: 'api/v1',
+  serverUrl: 'api',
+
 };
 
 export default Settings;

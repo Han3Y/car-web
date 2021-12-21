@@ -23,6 +23,7 @@ export enum MODEL_TYPE {
  * 表单布局
  */
 export const LAYOUT_HORIZONTAL = 'horizontal';
+export const LAYOUT_VERTICAL = 'vertical';
 export const LAYOUT_TYPE_HORIZONTAL = {
   labelCol: { span: 6 },
   wrapperCol: { span: 17 },

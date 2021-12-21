@@ -84,6 +84,10 @@
     ],
   },
   {
+    path: '/port',
+    component: './penetration/port'
+  },
+  {
     path: '/',
     redirect: '/home',
   },

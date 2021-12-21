@@ -2,6 +2,7 @@
 /* eslint-disable */
 import { request } from 'umi';
 import ResponseVO from '@/beans/global/httpResVO';
+import {LoginDTO} from "@/pages/user/Login/beans/loginDTO";
 
 /** 获取当前的用户 GET /api/currentUser */
 export async function currentUser(options?: { [key: string]: any }) {
@@ -15,15 +16,22 @@ export async function currentUser(options?: { [key: string]: any }) {
 
 /** 退出登录接口 POST /api/login/outLogin */
 export async function outLogin(options?: { [key: string]: any }) {
-  return request<Record<string, any>>('/api/login/outLogin', {
-    method: 'POST',
+  return request<Record<string, any>>('/logout/', {
+    method: 'GET',
     ...(options || {}),
   });
 }
 
 /** 登录接口 POST /api/login/account */
-export async function login(body: FormData, options?: { [key: string]: any }) {
+export async function formLogin(body: FormData, options?: { [key: string]: any }) {
   return request<ResponseVO<API.CurrentUser>>('/sys/login', {
+    method: 'POST',
+    data: body,
+    ...(options || {}),
+  });
+}
+export async function login(body: LoginDTO, options?: { [key: string]: any }) {
+  return request<ResponseVO<API.CurrentUser>>('/user/login/', {
     method: 'POST',
     data: body,
     ...(options || {}),

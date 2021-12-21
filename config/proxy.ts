@@ -8,12 +8,12 @@
  */
 export default {
   dev: {
-    '/api/v1': {
+    '/api': {
       // target: 'http://127.0.0.1:8075',
-      target: 'http://110.40.193.169:80',
+      target: 'http://106.12.160.144:80',
       changeOrigin: true,
       secure: false,
-      // pathRewrite: { '^': '' },
+      // pathRewrite: { '^/api': '' },
     },
     '/nologin': {
       // target: 'http://127.0.0.1:8075',

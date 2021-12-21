@@ -10,6 +10,7 @@ import { RequestConfig } from '@@/plugin-request/request';
 import { notification } from 'antd';
 import settings from '../config/defaultSettings';
 import { createRef } from 'react';
+import storage from "good-storage";
 
 const isDev = process.env.NODE_ENV === 'development';
 const loginPath = '/user/login';
@@ -137,7 +138,6 @@ const moduleMenu = {
       name: '端口扫描工具',
       path: '/port',
       icon: 'icon-port',
-      component: './demo',
     },
     {
       name: '无线安全攻击工具',
@@ -192,8 +192,13 @@ export async function getInitialState(): Promise<{
   // const location = useLocation();
   const fetchUserInfo = async () => {
     try {
-      const msg = await queryCurrentUser();
-      return msg.data;
+      // const msg = await queryCurrentUser();
+      const user = storage.get('user');
+      console.log('fetchUserInfo', user);
+      if(!user){
+        throw Error('未登录');
+      }
+      return user;
     } catch (error) {
       history.push(loginPath);
     }
@@ -351,7 +356,7 @@ const errorHandler = (error: { response: Response }): Response => {
       history.push(loginPath);
     }
     // @ts-ignore
-  } else if (response.result === false) {
+  } else if (response.success === false) {
     notification.error({
       description: '请求错误',
       // @ts-ignore
