@@ -157,7 +157,7 @@ const DemoList: React.FC = () => {
             setSelectedRows(selectedRows);
           },
         }}
-      ></ProTable>
+      />
       {createModalVisible && (
         <CustomModalWrapper>
           <DemoEditModal

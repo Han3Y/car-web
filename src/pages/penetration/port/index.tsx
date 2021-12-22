@@ -16,6 +16,7 @@ import {writeXTerm, xtermClear, xtermFit} from "@/utils/xtermUtils";
 import {ClosedPortTableViewer, OpenPortTableViewer} from "@/pages/penetration/port/components/openPortTableViewer";
 import {XTerm} from "xterm-for-react";
 import {VALIDATOR_MSG} from "../../../../config/validate";
+import {PortAssetTable} from "@/pages/penetration/port/components/portAssetTable";
 
 const PortScanPage: React.FC<any> = () => {
   const [loading, setLoading] = useState<boolean>(false); // 是否正在提交
@@ -261,9 +262,9 @@ const PortScanPage: React.FC<any> = () => {
                     <Col span={24}>
                       <OpenPortTableViewer data={openPorts}/>
                     </Col>
-                    <Col span={24}>
-                        <ClosedPortTableViewer data={closedPorts}/>
-                    </Col>
+                    {/*<Col span={24}>*/}
+                    {/*    <ClosedPortTableViewer data={closedPorts}/>*/}
+                    {/*</Col>*/}
                   </Row>
                 </Spin>
               </div>
@@ -271,7 +272,7 @@ const PortScanPage: React.FC<any> = () => {
           </Row>
         </Tabs.TabPane>
         <Tabs.TabPane tab={"端口资产管理"} key={"port"}>
-
+          <PortAssetTable/>
         </Tabs.TabPane>
       </Tabs>
     </div>

@@ -126,7 +126,7 @@ const Login: React.FC = () => {
       <div className={styles.content}>
         <div className={styles.top}>
           <div className={styles.header}>
-            <img alt="logo" className={styles.logo} src="/logo.svg" />
+            <img alt="logo" className={styles.logo} src="/img/logo.png" />
             <span className={styles.title}>{settings.title}</span>
           </div>
           {/*<div className={styles.desc}>*/}

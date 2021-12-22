@@ -311,7 +311,7 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
         // }
       },
     },
-    siderWidth: 230,
+    siderWidth: 280,
     // 自定义 403 页面
     // unAccessible: <div>unAccessible</div>,
     // 引入iconfont

@@ -15,7 +15,7 @@ const Settings: LayoutSettings & {
   fixSiderbar: true,
   colorWeak: false,
   headerHeight: 48,
-  title: '后台管理系统',
+  title: '智能网联汽车安全检测平台',
   pwa: false,
   logo: '/img/logo.png',
   iconfontUrl: '',

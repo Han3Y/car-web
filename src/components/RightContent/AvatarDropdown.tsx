@@ -66,7 +66,7 @@ const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({ menu }) => {
 
   const { currentUser } = initialState;
 
-  if (!currentUser || !currentUser.userName) {
+  if (!currentUser || !currentUser.username) {
     return loading;
   }
 
@@ -78,11 +78,11 @@ const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({ menu }) => {
           个人中心
         </Menu.Item>
       )}
-      <Menu.Item key="settings">
-        <SettingOutlined />
-        个人设置
-      </Menu.Item>
-      <Menu.Divider />
+      {/*<Menu.Item key="settings">*/}
+      {/*  <SettingOutlined />*/}
+      {/*  个人设置*/}
+      {/*</Menu.Item>*/}
+      {/*<Menu.Divider />*/}
       <Menu.Item key="logout">
         <LogoutOutlined />
         退出登录
@@ -93,7 +93,7 @@ const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({ menu }) => {
     <HeaderDropdown overlay={menuHeaderDropdown}>
       <span className={`${styles.action} ${styles.account}`}>
         <Avatar size="small" className={styles.avatar} src="/user.svg" alt="avatar" />
-        <span className={`${styles.name} anticon`}>{currentUser.userName}</span>
+        <span className={`${styles.name} anticon`}>{currentUser.username}</span>
       </span>
     </HeaderDropdown>
   );

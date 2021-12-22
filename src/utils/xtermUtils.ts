@@ -23,7 +23,6 @@ export const writeExecResultXTerm = (xterm: any, result: ExecResult, encoding?: 
 };
 
 export const xtermFit = (xtermRef: any, columns?: number, rows?: number) => {
-  console.log(rows)
     if (xtermRef && xtermRef?.current && xtermRef.current.terminal) {
         xtermRef.current.terminal.resize(columns || 100, rows || 10);
     }
